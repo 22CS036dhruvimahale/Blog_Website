@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_NOTIFICATION_MESSAGES,SERVICE_URLS } from '../constants/config';
 
 const API_URL='http://localhost:8000';
 
@@ -9,7 +10,7 @@ const axiosInstance = axios.create({
         "content-type":" application/json"
     }
 })
-axiosInstance.interception.request.use(
+axiosInstance.interceptors.request.use(
     function (config){
         return config;
 
@@ -18,7 +19,7 @@ axiosInstance.interception.request.use(
         return Promise.reject(error);
     }
 )
-axiosInstantce.interception.request.use(
+axiosInstance.interceptors.request.use(
     function(response){
         //stop global loader here
         return processResponse(response);
@@ -45,15 +46,68 @@ const processResponse = (response) => {
     }
 }
 
+
+// If success -> returns { isSuccess: true, data: object }
+// If fail -> returns { isFailure: true, status: string, msg: string, code: int }
+
 const processError=(error) => {
     if(error.response){
          // Request made and server responded with a status code 
     // that falls out of the range of 2xx   
-    }else if(error.request){
+console.log('Error in response:',error.toJSON());
+    return{
+        isError: true,
+                msg: API_NOTIFICATION_MESSAGES.responseFailure,
+                code: error.response.status
+
+    }
+
+}else if(error.request){
         // The request was made but no response was received
+        console.log('Error in request :',error.toJSON());
+        return{
+            isError: true,
+                    msg: API_NOTIFICATION_MESSAGES.requestFailure,
+                    code:" "
+    
+        }
 
     }else{
         // Something happened in setting up the request that triggered an Error
+console.log('Error in network:',error.toJSON());
+    return{
+        isError: true,
+                msg: API_NOTIFICATION_MESSAGES.networkFailure,
+                code: " "
 
     }
 }
+}
+
+const API={};
+
+for(const[key,value]of Object.entries(SERVICE_URLS)){
+
+    API[key]=(body,showUploadProgress,showDownloadProgress)=>
+        axiosInstance({
+            method:value.method,
+            url:value.url,
+            data:body,
+            responseType:value.responseType,
+            onUploadProgress: function(progressEvent) {
+                if (showUploadProgress) {
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    showUploadProgress(percentCompleted);
+                }
+            },
+            onDownloadProgress: function(progressEvent) {
+                if (showDownloadProgress) {
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    showDownloadProgress(percentCompleted);
+                }
+            }
+        })
+    }
+export{API};
+
+

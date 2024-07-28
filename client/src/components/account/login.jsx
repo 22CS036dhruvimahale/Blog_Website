@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
 
+import{API} from '../../services/api';
+
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -73,8 +75,9 @@ const Login = () => {
     setSignup({...signup, [e.target.name]:e.target.value});
   }
 
-  const signupUser =() =>{
-    
+  const signupUser =async () =>{
+    let response =await API.userSignup(signup);
+
   }
   return (
     <Component>
