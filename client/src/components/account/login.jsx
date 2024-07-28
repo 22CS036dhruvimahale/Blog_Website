@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
 
-import{API} from '../../services/api';
+import{API} from '../../service/api';
 
 const Component = styled(Box)`
   width: 400px;
@@ -52,6 +52,13 @@ const Text = styled(Typography)`
   color: #445045;
   font-size: 14px;
 `;
+const Error = styled(Typography)`
+    font-size: 10px;
+    color: #ff6161;
+    line-height: 0;
+    margin-top: 10px;
+    font-weight: 600;
+`
 
 // this is an object to store the value
 const signupInitialValues={
@@ -66,6 +73,9 @@ const Login = () => {
   
   const [account, toggleAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
+  const[error,setError]=useState('');
+
+
 
   const toggleSignup = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");
@@ -77,6 +87,17 @@ const Login = () => {
 
   const signupUser =async () =>{
     let response =await API.userSignup(signup);
+    if (response.isSuccess) {
+      showError('');
+      setSignup(signupInitialValues);
+      toggleAccount('login');
+  } else {
+      showError('Something went wrong! please try again later');
+  }
+
+    
+
+    
 
   }
   return (
@@ -86,7 +107,7 @@ const Login = () => {
         {
         account === "login" ? 
           <Wrapper>
-            <TextField variant="standard" label="Enter Username" />  {/*name field is used to diffrentiate data in the console*/}
+            <TextField variant="standard" label="Enter Username" />  {/*name field is used to differentiate data in the console*/}
             <TextField variant="standard" label="Enter Password" />
             <LoginButton variant="contained">Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
@@ -100,6 +121,8 @@ const Login = () => {
             <TextField variant="standard" onChange={() => onInputChange()} name='username' label="Enter Username" />
             <TextField variant="standard" onChange={() => onInputChange()} name='password' label="Enter Password" />
             
+
+            {error && <Error>{error}</Error>}
             <SignupButton onClick={() => signupUser()} >Signup</SignupButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <LoginButton variant="contained" onClick={() => toggleSignup()}>
