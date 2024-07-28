@@ -6,10 +6,14 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import Connection from './database/db.js';
+import Router from './Routes/route.js';
 
 dotenv.config();
 
 const app=express();                  //initializing express as a func
+
+
+app.use('/',Router);
 
 const PORT=8000;
 app.listen(PORT,() => console.log(`Server is running successfully on port ${PORT}`));//to make express server,second function is the call back function
