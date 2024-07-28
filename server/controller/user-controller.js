@@ -17,4 +17,4 @@ catch(error){
     return response.status(500).json({msg:'Error while signing up the user'});
 
 } 
-}
+} 

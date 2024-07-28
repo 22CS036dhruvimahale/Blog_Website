@@ -71,36 +71,39 @@ const Login = () => {
 
   const onInputChange = (e) => {
     setSignup({...signup, [e.target.name]:e.target.value});
-
-
   }
 
+  const signupUser =() =>{
+    
+  }
   return (
     <Component>
       <Box>
         <Image src={imageurl} alt="login" />
-        {account === "login" ? (
+        {
+        account === "login" ? 
           <Wrapper>
             <TextField variant="standard" label="Enter Username" />  {/*name field is used to diffrentiate data in the console*/}
             <TextField variant="standard" label="Enter Password" />
             <LoginButton variant="contained">Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
-            <SignupButton onClick={() => toggleSignup()}>
+            <SignupButton onClick={() => toggleSignup()} style={{ marginBottom: 50 }}>
               Create an Account
             </SignupButton>
           </Wrapper>
-        ) : (
+         : 
           <Wrapper>
             <TextField variant="standard" onChange={() => onInputChange()} name='name' label="Enter Name" />
             <TextField variant="standard" onChange={() => onInputChange()} name='username' label="Enter Username" />
             <TextField variant="standard" onChange={() => onInputChange()} name='password' label="Enter Password" />
-            <SignupButton>Signup</SignupButton>
+            
+            <SignupButton onClick={() => signupUser()} >Signup</SignupButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <LoginButton variant="contained" onClick={() => toggleSignup()}>
               Already have an Account
             </LoginButton>
           </Wrapper>
-        )}
+        }
       </Box>
     </Component>
   );
