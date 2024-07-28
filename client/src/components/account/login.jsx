@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
+
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -48,20 +50,38 @@ const Text = styled(Typography)`
   color: #445045;
   font-size: 14px;
 `;
+
+// this is an object to store the value
+const signupInitialValues={
+  name:'',
+  username:'',
+  password:''
+}
+
 const Login = () => {
   const imageurl =
     "https://sadeemalkhattabi.wordpress.com/wp-content/uploads/2018/10/blog-gif-2.gif";
+  
   const [account, toggleAccount] = useState("login");
+  const [signup, setSignup] = useState(signupInitialValues);
+
   const toggleSignup = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");
-  };
+  }
+
+  const onInputChange = (e) => {
+    setSignup({...signup, [e.target.name]:e.target.value});
+
+
+  }
+
   return (
     <Component>
       <Box>
         <Image src={imageurl} alt="login" />
         {account === "login" ? (
           <Wrapper>
-            <TextField variant="standard" label="Enter Username" />
+            <TextField variant="standard" label="Enter Username" />  {/*name field is used to diffrentiate data in the console*/}
             <TextField variant="standard" label="Enter Password" />
             <LoginButton variant="contained">Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
@@ -71,9 +91,9 @@ const Login = () => {
           </Wrapper>
         ) : (
           <Wrapper>
-            <TextField variant="standard" label="Enter Name" />
-            <TextField variant="standard" label="Enter Username" />
-            <TextField variant="standard" label="Enter Password" />
+            <TextField variant="standard" onChange={() => onInputChange()} name='name' label="Enter Name" />
+            <TextField variant="standard" onChange={() => onInputChange()} name='username' label="Enter Username" />
+            <TextField variant="standard" onChange={() => onInputChange()} name='password' label="Enter Password" />
             <SignupButton>Signup</SignupButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <LoginButton variant="contained" onClick={() => toggleSignup()}>
