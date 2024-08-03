@@ -1,5 +1,6 @@
 
 
+import { request, response } from 'express';
 import User from '../model/user.js';
 
 
@@ -19,3 +20,6 @@ catch(error){
 
 } 
 } 
+export const loginUser=async(request,response)=>{
+    let user = await User.findOne({username: request.body.username})
+}

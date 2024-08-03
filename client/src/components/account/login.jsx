@@ -59,7 +59,10 @@ const Error = styled(Typography)`
     margin-top: 10px;
     font-weight: 600;
 `
-
+const loginInitialValues = {
+  username: '',
+  password: ''
+}
 // this is an object to store the value
 const signupInitialValues={
   name:'',
@@ -73,6 +76,7 @@ const Login = () => {
   
   const [account, toggleAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
+  const [login,setLogin]=useState(loginInitialValues);
   const[error,setError]=useState('');
 
 
@@ -94,11 +98,21 @@ const Login = () => {
   } else {
       showError('Something went wrong! please try again later');
   }
+ 
 
-    
-
-    
-
+  }
+  const onValueChange = (e) =>{
+      setLogin({...login, [e.target.name]: e.target.value})
+  }
+  const loginUser = async() =>{
+      let response= await API.userLogin(login);
+      if(response.isSuccess)
+      {
+        setError('');
+      }
+      else{
+        setError('Something went wrong!')
+      }
   }
   return (
     <Component>
@@ -107,9 +121,10 @@ const Login = () => {
         {
         account === "login" ? 
           <Wrapper>
-            <TextField variant="standard" label="Enter Username" />  {/*name field is used to differentiate data in the console*/}
-            <TextField variant="standard" label="Enter Password" />
-            <LoginButton variant="contained">Login</LoginButton>
+            <TextField variant="standard" value={login.username} onChange={(e)=>onValueChange(e)} name="username" label="Enter Username" />  {/*name field is used to differentiate data in the console*/}
+            <TextField variant="standard" value={login.password} onChange={(e)=>onValueChange(e)} name="password" label="Enter Password" />
+            {error && <Error>{error}</Error>}
+            <LoginButton variant="contained" onClick={()=>loginUser()}>Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <SignupButton onClick={() => toggleSignup()} style={{ marginBottom: 50 }}>
               Create an Account
@@ -117,9 +132,9 @@ const Login = () => {
           </Wrapper>
          : 
           <Wrapper>
-            <TextField variant="standard" onChange={() => onInputChange()} name='name' label="Enter Name" />
-            <TextField variant="standard" onChange={() => onInputChange()} name='username' label="Enter Username" />
-            <TextField variant="standard" onChange={() => onInputChange()} name='password' label="Enter Password" />
+            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label="Enter Name" />
+            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label="Enter Username" />
+            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label="Enter Password" />
             
 
             {error && <Error>{error}</Error>}
