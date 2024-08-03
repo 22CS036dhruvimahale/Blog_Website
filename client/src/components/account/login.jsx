@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState , useContext} from "react";
 
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
-
-import{API} from '../../service/api';
-
+import { DataContext } from "../../context/DataProvider";
+import {API} from '../../service/api';
+import {userNavigate } from 'react-router-dom';
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -77,9 +77,9 @@ const Login = () => {
   const [account, toggleAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
   const [login,setLogin]=useState(loginInitialValues);
-  const[error,setError]=useState('');
-
-
+  const [error,setError]=useState('');
+  const {setAccount } = useContext(DataContext);
+  const navigate = userNavigate();
 
   const toggleSignup = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");
@@ -109,6 +109,8 @@ const Login = () => {
       if(response.isSuccess)
       {
         setError('');
+        setAccount({username:response.data.username,name:response.data.name});
+        navigate('/')
       }
       else{
         setError('Something went wrong!')
