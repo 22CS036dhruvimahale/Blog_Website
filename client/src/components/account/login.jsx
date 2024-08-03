@@ -1,9 +1,10 @@
+import React from "react";
 import { useState , useContext} from "react";
 
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
 import { DataContext } from "../../context/DataProvider";
 import {API} from '../../service/api';
-import {userNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -79,7 +80,7 @@ const Login = () => {
   const [login,setLogin]=useState(loginInitialValues);
   const [error,setError]=useState('');
   const {setAccount } = useContext(DataContext);
-  const navigate = userNavigate();
+  const navigate = useNavigate();
 
   const toggleSignup = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");

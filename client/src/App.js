@@ -1,20 +1,24 @@
+import React from 'react';
 import logo from './logo.svg';
+import Header from './components/header/Header';
 import DataProvider from './context/DataProvider';
-import {BrowserRout,Routes,Route} from 'react-router-dom';
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import './App.css';
 import Login from './components/account/login'
 import Home from './components/home';
 function App() {
   return (
     <DataProvider>
-      <BrowserRout>
+      <BrowserRouter>
+      <Header/>
      <div style={{marginTop: 64}}>
+      
         <Routes>
          <Route path='/login'element={<Login/>}/>
          <Route path='/'element={<Home/>}/>
         </Routes>
      </div>
-    </BrowserRout>
+    </BrowserRouter>
    </DataProvider>
   );
 }
