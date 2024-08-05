@@ -1,21 +1,31 @@
 
+// server/controller/user-controller.js
 
-import User from '../model/user.js';
+import bcrypt from 'bcrypt';
+import User from '../models/user.js';
 
 
+export const signupUser = async (req, res) => {
+  try {
 
-export const signupUser =async(request,response) =>{
-    try{
-        const user= request.body;
+    const salt= await bcrypt.genSalt();
+    const hashedPassword=await bcrypt.hash(req.body.password,salt);
+ const user = {username:req.body.username, name:req.body.name, password:hashedPassword}
+    
 
-        const newUser=new User(user);
+    // //Check if the username already exists
+    // const existingUser = await User.findOne({ username });
+    // if (existingUser) {
+    //   return res.status(400).json({ message: 'Username already taken' });
+    // }
+
+    // Create a new user
+    const newUser = new User(user);
     await newUser.save();
 
-    return response.status(200).json({msg:'Signup successful'})
-    }
-catch(error){
-
-    return response.status(500).json({msg:'Error while signing up the user'});
-
-} 
-} 
+    return res.status(201).json({ message: 'User created successfully' });
+  } catch (error) {
+    console.error('Error during signup:', error);
+    return res.status(500).json({ message: 'Something went wrong. Please try again later.' });
+  }
+};

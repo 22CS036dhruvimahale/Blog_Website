@@ -13,7 +13,7 @@ import Router from './Routes/route.js';
 
 dotenv.config();
 
-const app=express();                  //initializing express as a func
+const app=express();                //initializing express as a func
 
 app.use(cors());
 app.use(bodyParser.json({ extended: true }));
