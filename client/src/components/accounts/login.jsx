@@ -57,20 +57,31 @@ const Text = styled(Typography)`
   font-size: 14px;
 `;
 
+const signupInitialValues = {
+  name: '',
+  username: '',
+  password: ''
+};
+
 
 const Login = () => {
-    const imageurl = "https://sadeemalkhattabi.wordpress.com/wp-content/uploads/2018/10/blog-gif-2.gif";
+    const imageURL = "https://sadeemalkhattabi.wordpress.com/wp-content/uploads/2018/10/blog-gif-2.gif";
    
-    const [account, toggleAccount] = useState("login");
+    const [account, toggleAccount] = useState('login');
+    const [signup, setSignup] = useState(signupInitialValues);
 
     const toggleSignup = () => {
-        account === "signup" ? toggleAccount("login") : toggleAccount("signup");
-      };
+        account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
+      }
    
+      const onInputChange = (e) => {
+         setSignup({ ...signup, [e.target.name]: e.target.value });
+      };
+    
     return (
         <Component>
           <Box>
-            <Image src={imageurl} alt="login" />
+            <Image src={imageURL} alt="login" />
            { 
            account === "login"?
               <Wrapper>
@@ -84,9 +95,9 @@ const Login = () => {
               </Wrapper>
             : 
               <Wrapper>
-                <TextField variant="standard"   label="Enter Name" />
-                <TextField variant="standard"   label="Enter Username" />
-                <TextField variant="standard"   label="Enter Password" />
+                <TextField variant="standard"  onChange={(e) => onInputChange(e)} name="name" label="Enter Name" />
+                <TextField variant="standard"  onChange={(e) => onInputChange(e)} name="username" label="Enter Username" />
+                <TextField variant="standard"  onChange={(e) => onInputChange(e)} name="password" label="Enter Password" />
               
                 <SignupButton>Signup</SignupButton>
                 <Text style={{ textAlign: "center" }}>OR</Text>
