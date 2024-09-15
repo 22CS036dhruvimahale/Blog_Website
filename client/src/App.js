@@ -3,10 +3,16 @@ import './App.css';
   //component
 
 import Login from './components/accounts/login';
+import DataProvider from './context/DataProvider';
+
 function App() {
   return (
     <div style={{marginTop:64}}>
-      <Login/>
+
+     <DataProvider>   
+     <Login/>
+     </DataProvider>
+      
         </div>
   );
 }

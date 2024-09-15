@@ -1,9 +1,9 @@
 import React from 'react';
-import { useState } from "react";
+import { useState ,useContext} from "react";
 
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
 import { API } from '../../service/api';
-
+import {DataContext} from '../../context/DataProvider';
 
 const Component = styled(Box)`
   width: 400px;
@@ -86,7 +86,9 @@ const Login = () => {
     const [login, setLogin] = useState(loginInitialValues);
     const [account, toggleAccount] = useState('login');
     const [signup, setSignup] = useState(signupInitialValues);
-    const[error, setError] = useState('');
+    const [error, setError] = useState('');
+
+  const{setAccount}=useContext(DataContext);
 
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
@@ -108,6 +110,13 @@ const Login = () => {
             sessionStorage.setItem('accessToken', `Bearer ${response.data.accessToken}`);
             sessionStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
             
+          
+            setAccount({ name: response.data.name, username: response.data.username });
+            
+            // isUserAuthenticated(true)
+            // setLogin(loginInitialValues);
+            // navigate('/');
+
           } else {
             setError('Something went wrong! please try again later');
         }
