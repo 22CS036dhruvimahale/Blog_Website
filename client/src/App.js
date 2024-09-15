@@ -1,16 +1,17 @@
-// import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+
 import DataProvider from './context/DataProvider';
 
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 
 //component
-
 import Login from './components/accounts/login';
 import Home from './components/home/Home';
 import Header from './components/header/Header';
 
 function App() {
+  const [isAuthenticated, isUserAuthenticated] = useState(false);
+
   return (
    
    <DataProvider>  
@@ -19,7 +20,7 @@ function App() {
          <div style={{marginTop:64}}>
 
           <Routes> {/* to add routing to each page*/}
-            <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<Login isUserAuthenticated={isUserAuthenticated} />} />
             <Route path='/' element={<Home/>} />
           </Routes>
 

@@ -5,7 +5,7 @@ import { Box, Button, styled, TextField, Typography } from "@mui/material";
 import { API } from '../../service/api';
 import {DataContext} from '../../context/DataProvider';
 
-import { useNavigate } from 'react-router-dom'; //use to navigate to other pages
+import { useNavigate } from 'react-router-dom'; //use to navigate to other page s
 
 const Component = styled(Box)`
   width: 400px;
@@ -82,7 +82,7 @@ const signupInitialValues = {
 };
 
 
-const Login = () => {
+const Login = ({isUserAuthenticated}) => {
     const imageURL = "https://sadeemalkhattabi.wordpress.com/wp-content/uploads/2018/10/blog-gif-2.gif";
    
     const [login, setLogin] = useState(loginInitialValues);
@@ -116,7 +116,7 @@ const Login = () => {
           
             setAccount({ name: response.data.name, username: response.data.username });
             
-            // isUserAuthenticated(true)
+            isUserAuthenticated(true)
             // setLogin(loginInitialValues);
             navigate('/');
 
