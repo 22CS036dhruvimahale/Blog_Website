@@ -1,9 +1,13 @@
 // import logo from './logo.svg';
 import './App.css';
-  //component
+
+//component
+
+import DataProvider from './context/DataProvider';
 
 import Login from './components/accounts/login';
-import DataProvider from './context/DataProvider';
+
+import Home from './components/home/Home';
 
 function App() {
   return (
@@ -11,6 +15,7 @@ function App() {
 
      <DataProvider>   
      <Login/>
+     <Home/>
      </DataProvider>
       
         </div>
