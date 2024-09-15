@@ -1,8 +1,10 @@
+ //components//
+ import Banner from '../banner/Banner';
 
 const Home = () => {
 
     return (
-        <div>hello from home </div>
+       <Banner/>
     )
 }
 export default Home;
