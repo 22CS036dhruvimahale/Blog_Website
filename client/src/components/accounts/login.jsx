@@ -67,6 +67,12 @@ const Text = styled(Typography)`
   font-size: 14px;
 `;
 
+
+const loginInitialValues = {
+  username: '',
+  password: ''
+};
+
 const signupInitialValues = {
   name: '',
   username: '',
@@ -77,6 +83,7 @@ const signupInitialValues = {
 const Login = () => {
     const imageURL = "https://sadeemalkhattabi.wordpress.com/wp-content/uploads/2018/10/blog-gif-2.gif";
    
+    const [login, setLogin] = useState(loginInitialValues);
     const [account, toggleAccount] = useState('login');
     const [signup, setSignup] = useState(signupInitialValues);
     const[error, setError] = useState('');
@@ -84,10 +91,25 @@ const Login = () => {
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
       }
+
+      const onValueChange = (e) => {
+        setLogin({ ...login, [e.target.name]: e.target.value });
+    }
+
       const onInputChange = (e) => {
         setSignup({ ...signup, [e.target.name]: e.target.value });
       };
       
+      const loginUser = async () => {
+        let response = await API.userLogin(login);
+        if (response.isSuccess) {
+            setError('');
+          } else {
+            setError('Something went wrong! please try again later');
+        }
+      };
+
+
       const signupUser = async () => {
         try {
             let response = await API.userSignup(signup);
@@ -99,12 +121,12 @@ const Login = () => {
                 setError('Something went wrong! Please try again later');
             }
         } catch (error) {
-            setError('Error during signup. Please try again later.');
+            setError('Error during signing up. Please try again later.');
             console.error(error);
         }
     };
     
-     
+      
     return (
         <Component>
           <Box>
@@ -112,13 +134,14 @@ const Login = () => {
            { 
            account === "login"?
               <Wrapper>
-                <TextField variant="standard" label="Enter Username" />
-                <TextField variant="standard" label="Enter Password" />
+                   <TextField variant="standard" value={login.username} onChange={(e) => onValueChange(e)} name='username' label='Enter Username' />
+                   <TextField variant="standard" value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Enter Password' />
+
                 
                 {error && <Error>{error}</Error>}
 
 
-                <LoginButton variant="contained">Login</LoginButton>
+                <LoginButton variant="contained" onClick={() => loginUser()}>Login</LoginButton>
                 <Text style={{ textAlign: "center" }}>OR</Text>
                 <SignupButton onClick={()=>toggleSignup()} style={{ marginBottom: 50 }}>
                   Create an Account
