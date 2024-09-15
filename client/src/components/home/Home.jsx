@@ -1,10 +1,13 @@
- //components//
- import Banner from '../banner/Banner';
+//components//
+import Banner from "../banner/Banner";
+import Categories from "./Categories";
 
 const Home = () => {
-
-    return (
-       <Banner/>
-    )
-}
+  return (
+    <>
+           <Banner />
+      <Categories />
+    </>
+  );
+};
 export default Home;
