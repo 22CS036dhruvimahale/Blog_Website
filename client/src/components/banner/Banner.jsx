@@ -3,7 +3,7 @@ import { styled, Box, Typography } from '@mui/material';
 
 const Image = styled(Box)`
     width: 100%;
-    background: url(https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg) center/55% repeat-x #000;
+    background: url(https://img.freepik.com/premium-photo/top-view-arrangement-desk-elements-pink-background_1257223-4960.jpg) center/55% repeat-x #000;
     height: 50vh;
     display: flex;
     flex-direction: column;
